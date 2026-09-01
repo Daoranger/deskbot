@@ -1,9 +1,0 @@
-/home/hoangkn/Hoang/Main-Projects/SentinelDrone/bookros2_ws/build/pal_urdf_utils/CMakeFiles/uninstall.dir
-/home/hoangkn/Hoang/Main-Projects/SentinelDrone/bookros2_ws/build/pal_urdf_utils/CMakeFiles/pal_urdf_utils_uninstall.dir
-/home/hoangkn/Hoang/Main-Projects/SentinelDrone/bookros2_ws/build/pal_urdf_utils/CMakeFiles/test.dir
-/home/hoangkn/Hoang/Main-Projects/SentinelDrone/bookros2_ws/build/pal_urdf_utils/CMakeFiles/edit_cache.dir
-/home/hoangkn/Hoang/Main-Projects/SentinelDrone/bookros2_ws/build/pal_urdf_utils/CMakeFiles/rebuild_cache.dir
-/home/hoangkn/Hoang/Main-Projects/SentinelDrone/bookros2_ws/build/pal_urdf_utils/CMakeFiles/list_install_components.dir
-/home/hoangkn/Hoang/Main-Projects/SentinelDrone/bookros2_ws/build/pal_urdf_utils/CMakeFiles/install.dir
-/home/hoangkn/Hoang/Main-Projects/SentinelDrone/bookros2_ws/build/pal_urdf_utils/CMakeFiles/install/local.dir
-/home/hoangkn/Hoang/Main-Projects/SentinelDrone/bookros2_ws/build/pal_urdf_utils/CMakeFiles/install/strip.dir

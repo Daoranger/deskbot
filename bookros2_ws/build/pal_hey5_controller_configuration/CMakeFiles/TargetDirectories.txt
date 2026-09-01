@@ -1,9 +1,0 @@
-/home/hoangkn/Hoang/Main-Projects/SentinelDrone/bookros2_ws/build/pal_hey5_controller_configuration/CMakeFiles/uninstall.dir
-/home/hoangkn/Hoang/Main-Projects/SentinelDrone/bookros2_ws/build/pal_hey5_controller_configuration/CMakeFiles/pal_hey5_controller_configuration_uninstall.dir
-/home/hoangkn/Hoang/Main-Projects/SentinelDrone/bookros2_ws/build/pal_hey5_controller_configuration/CMakeFiles/test.dir
-/home/hoangkn/Hoang/Main-Projects/SentinelDrone/bookros2_ws/build/pal_hey5_controller_configuration/CMakeFiles/edit_cache.dir
-/home/hoangkn/Hoang/Main-Projects/SentinelDrone/bookros2_ws/build/pal_hey5_controller_configuration/CMakeFiles/rebuild_cache.dir
-/home/hoangkn/Hoang/Main-Projects/SentinelDrone/bookros2_ws/build/pal_hey5_controller_configuration/CMakeFiles/list_install_components.dir
-/home/hoangkn/Hoang/Main-Projects/SentinelDrone/bookros2_ws/build/pal_hey5_controller_configuration/CMakeFiles/install.dir
-/home/hoangkn/Hoang/Main-Projects/SentinelDrone/bookros2_ws/build/pal_hey5_controller_configuration/CMakeFiles/install/local.dir
-/home/hoangkn/Hoang/Main-Projects/SentinelDrone/bookros2_ws/build/pal_hey5_controller_configuration/CMakeFiles/install/strip.dir

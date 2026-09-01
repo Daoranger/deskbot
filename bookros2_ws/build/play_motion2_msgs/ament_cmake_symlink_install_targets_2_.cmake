@@ -1,1 +1,0 @@
-ament_cmake_symlink_install_targets("TARGET_FILES" "/home/hoangkn/Hoang/Main-Projects/SentinelDrone/bookros2_ws/build/play_motion2_msgs/rosidl_generator_py/play_motion2_msgs/play_motion2_msgs_s__rosidl_typesupport_c.so" "TARGETS" "play_motion2_msgs_s__rosidl_typesupport_c" "DESTINATION" "lib/python3.12/site-packages/play_motion2_msgs")
