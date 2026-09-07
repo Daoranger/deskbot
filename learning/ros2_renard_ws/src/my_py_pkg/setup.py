@@ -24,6 +24,8 @@ setup(
     },
     entry_points={
         'console_scripts': [
+            # creating a exe for the node
+            "py_node = my_py_pkg.my_first_node:main" 
         ],
     },
 )
