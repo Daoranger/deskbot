@@ -4,6 +4,9 @@
 #include <QPaintEvent>
 #include <QTimer>
 
+#include "rclcpp/rclcpp.hpp"
+#include "std_msgs/msg/string.hpp"
+
 enum class Expression { Neutral, Happy, Sleepy };
 
 class FaceWidget : public QWidget
@@ -72,22 +75,76 @@ private:
 
 };
 
+class BrobotFaceDisplayNode : public rclcpp::Node
+{
+
+public:
+    BrobotFaceDisplayNode(FaceWidget* face)
+        : Node("brobot_face_display")
+        , face_(face)
+    {
+        subscriber_ = this->create_subscription<std_msgs::msg::String>(
+            "/brobot/expression",
+            10,
+            std::bind(&BrobotFaceDisplayNode::callbackBrobotFaceDisplay, this, std::placeholders::_1)
+        );
+    }
+
+private:
+
+    void callbackBrobotFaceDisplay(const std_msgs::msg::String::SharedPtr msg)
+    {
+        RCLCPP_INFO(this->get_logger(), "Received expression: %s", msg->data.c_str());
+
+        if (msg->data == "neutral")
+        {
+            face_->setExpression(Expression::Neutral);
+        }
+        else if (msg->data == "happy")
+        {
+            face_->setExpression(Expression::Happy);
+        }
+        else if (msg->data == "sleepy")
+        {
+            face_->setExpression(Expression::Sleepy);
+        }
+        else
+        {
+            RCLCPP_WARN(this->get_logger(), "Unknown expression: %s", msg->data.c_str());
+        }
+    }
+    
+    FaceWidget* face_;
+    rclcpp::Subscription<std_msgs::msg::String>::SharedPtr subscriber_;
+
+};
+
 int main(int argc, char** argv)
 {
+    rclcpp::init(argc, argv);
     QApplication app(argc, argv);
 
     FaceWidget face;
     face.show();
 
-    // Temporary test: cycle expressions every 4 seconds
-    QTimer cycle_timer;
-    int index = 0;
-    QObject::connect(&cycle_timer, &QTimer::timeout, [&]()
-    {
-        index = (index + 1) % 3;
-        face.setExpression(static_cast<Expression>(index));
-    });
-    cycle_timer.start(4000);
+    auto node = std::make_shared<BrobotFaceDisplayNode>(&face);
 
-    return app.exec();
+    QTimer ros_timer;
+    QObject::connect(&ros_timer, &QTimer::timeout, [&]()
+    {
+        if (!rclcpp::ok())
+        {
+            app.quit();
+            return;
+        }
+
+        rclcpp::spin_some(node);
+    });
+
+    ros_timer.start(10);
+
+    int result = app.exec();
+    rclcpp::shutdown();
+    return result;
+
 }

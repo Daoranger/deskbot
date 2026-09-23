@@ -7,10 +7,17 @@ endif()
 
 find_package(ament_cmake REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
+find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
 set(CMAKE_AUTOMOC ON)
 
 add_executable(brobot_face_display src/brobot_face_display.cpp)
 target_link_libraries(brobot_face_display Qt6::Widgets)
+
+ament_target_dependencies(brobot_face_display
+  rclcpp
+  std_msgs
+)
 
 install(TARGETS
   brobot_face_display

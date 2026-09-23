@@ -10,6 +10,7 @@ find_package(rclcpp REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(behaviortree_cpp REQUIRED)
 find_package(ament_index_cpp REQUIRED)
+find_package(std_msgs REQUIRED)
 
 add_executable(brobot_behavior_tree
   src/brobot_behavior_tree.cpp
@@ -20,6 +21,7 @@ ament_target_dependencies(brobot_behavior_tree
   geometry_msgs
   behaviortree_cpp
   ament_index_cpp
+  std_msgs
 )
 
 install(TARGETS

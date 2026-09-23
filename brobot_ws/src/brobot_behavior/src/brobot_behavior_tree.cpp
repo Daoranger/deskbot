@@ -1,6 +1,7 @@
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include "behaviortree_cpp/bt_factory.h"
+#include "std_msgs/msg/string.hpp"
 
 #include "ament_index_cpp/get_package_share_directory.hpp"
 #include <thread>
@@ -9,10 +10,7 @@
 class MoveFoward : public BT::SyncActionNode
 {
 public:
-    MoveFoward(
-        const std::string& name,
-        const BT::NodeConfig& config,
-        rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisher)
+    MoveFoward(const std::string& name, const BT::NodeConfig& config, rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisher)
         : BT::SyncActionNode(name, config)
         , publisher_(publisher)
     {
@@ -38,10 +36,7 @@ private:
 class Stop : public BT::SyncActionNode
 {
 public:
-    Stop(
-        const std::string& name,
-        const BT::NodeConfig& config,
-        rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisher)
+    Stop(const std::string& name, const BT::NodeConfig& config, rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisher)
         : BT::SyncActionNode(name, config)
         , publisher_(publisher)
     {
@@ -105,22 +100,61 @@ private:
     std::chrono::steady_clock::time_point start_time_;
 };
 
+class SetExpression : public BT::SyncActionNode
+{
+public:
+    SetExpression(const std::string& name, const BT::NodeConfig& config, rclcpp::Publisher<std_msgs::msg::String>::SharedPtr publisher)
+        : BT::SyncActionNode(name, config)
+        , publisher_(publisher)
+    { 
+    }
+
+    static BT::PortsList providedPorts()
+    {
+        return { BT::InputPort<std::string>("expression") };
+    }
+
+    BT::NodeStatus tick() override
+    {
+        auto expression = getInput<std::string>("expression");
+        if (!expression)
+        {
+            return BT::NodeStatus::FAILURE;
+        }
+
+        auto msg = std_msgs::msg::String();
+        msg.data = expression.value();
+        publisher_->publish(msg);
+        return BT::NodeStatus::SUCCESS;
+    }
+
+private:
+    rclcpp::Publisher<std_msgs::msg::String>::SharedPtr publisher_;
+};
+
 class BrobotBehaviorTreeNode : public rclcpp::Node
 {
 public:
     BrobotBehaviorTreeNode()
         : Node("brobot_behavior_tree")
     {
-        publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
+        cmd_vel_publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
+        expression_publisher_ = this->create_publisher<std_msgs::msg::String>("/brobot/expression", 10);
     }
 
-    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr getPublisher()
+    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr getCmdVelPublisher()
     {
-        return publisher_;
+        return cmd_vel_publisher_;
+    }
+
+    rclcpp::Publisher<std_msgs::msg::String>::SharedPtr getExpressionPublisher()
+    {
+        return expression_publisher_;
     }
 
 private:
-    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisher_;
+    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_publisher_;
+    rclcpp::Publisher<std_msgs::msg::String>::SharedPtr expression_publisher_;
 };
 
 int main(int argc, char** argv)
@@ -132,17 +166,23 @@ int main(int argc, char** argv)
 
     BT::NodeBuilder move_forward_builder = [&](const std::string& name, const BT::NodeConfig& config)
     {
-        return std::make_unique<MoveFoward>(name, config, node->getPublisher());
+        return std::make_unique<MoveFoward>(name, config, node->getCmdVelPublisher());
     };
 
     BT::NodeBuilder stop_builder = [&](const std::string& name, const BT::NodeConfig& config)
     {
-        return std::make_unique<Stop>(name, config, node->getPublisher());
+        return std::make_unique<Stop>(name, config, node->getCmdVelPublisher());
+    };
+
+    BT::NodeBuilder set_expression_builder = [&](const std::string& name, const BT::NodeConfig& config)
+    {
+        return std::make_unique<SetExpression>(name, config, node->getExpressionPublisher());
     };
 
     factory.registerBuilder<MoveFoward>("MoveFoward", move_forward_builder);
     factory.registerBuilder<Stop>("Stop", stop_builder);
     factory.registerNodeType<Wait>("Wait");
+    factory.registerBuilder<SetExpression>("SetExpression", set_expression_builder);
 
     std::string tree_path = ament_index_cpp::get_package_share_directory("brobot_behavior")
         + "/behavior_trees/brobot_tree.xml";
