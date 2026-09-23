@@ -2,8 +2,9 @@
   <BehaviorTree ID="MainTree">
     <Sequence>
         <MoveFoward />
-        <Wait duration="2000" />
+        <Wait duration="10000" />
         <Stop />
+        <Wait duration="5000" />
     </Sequence>
   </BehaviorTree>
 </root>
