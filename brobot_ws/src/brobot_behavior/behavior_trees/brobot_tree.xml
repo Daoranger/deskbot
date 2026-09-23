@@ -2,7 +2,7 @@
   <BehaviorTree ID="MainTree">
     <Sequence>
         <MoveFoward />
-        <Wait />
+        <Wait duration="2000" />
         <Stop />
     </Sequence>
   </BehaviorTree>

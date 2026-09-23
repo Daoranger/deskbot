@@ -67,19 +67,21 @@ private:
 class Wait : public BT::StatefulActionNode
 {
 public:
-    Wait(const std::string& name, const BT::NodeConfig& config, std::chrono::milliseconds duration)
+    Wait(const std::string& name, const BT::NodeConfig& config)
         : BT::StatefulActionNode(name, config)
-        , duration_(duration)
     {
     }
 
     static BT::PortsList providedPorts()
     {
-        return {};
+        return { BT::InputPort<int>("duration") };
     }
 
     BT::NodeStatus onStart() override
     {
+        int duration_ms = 2000;
+        getInput("duration", duration_ms);
+        duration_ = std::chrono::milliseconds(duration_ms);
         start_time_ = std::chrono::steady_clock::now();
         return BT::NodeStatus::RUNNING;
     }
@@ -138,17 +140,9 @@ int main(int argc, char** argv)
         return std::make_unique<Stop>(name, config, node->getPublisher());
     };
 
-    BT::NodeBuilder wait_builder = [&](const std::string& name, const BT::NodeConfig& config)
-    {
-        return std::make_unique<Wait>(name, config, std::chrono::milliseconds(10000));
-    };
-
-
-
-
     factory.registerBuilder<MoveFoward>("MoveFoward", move_forward_builder);
     factory.registerBuilder<Stop>("Stop", stop_builder);
-    factory.registerBuilder<Wait>("Wait", wait_builder);
+    factory.registerNodeType<Wait>("Wait");
 
     std::string tree_path = ament_index_cpp::get_package_share_directory("brobot_behavior")
         + "/behavior_trees/brobot_tree.xml";
