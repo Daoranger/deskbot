@@ -25,7 +25,7 @@ private:
 
     std::string robot_name_;
     rclcpp::Publisher<example_interfaces::msg::String>::SharedPtr publisher_;
-    rclcpp::TimerBase::SharedPtr timer_;
+    
 };
 
 int main(int argc, char** argv)
