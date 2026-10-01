@@ -7,7 +7,7 @@ class RobotNewsStationNode : public rclcpp::Node
 {
 public:
     RobotNewsStationNode()
-        : Node("node_news_station")
+        : Node("robot_news_station")
         , robot_name_("Brobot")
     {
         publisher_ = this->create_publisher<example_interfaces::msg::String>("robot_news", 10);
