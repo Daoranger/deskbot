@@ -17,7 +17,7 @@ private:
     void publishNumber()
     {
         auto msg = example_interfaces::msg::Int64();
-        msg.data = 11;
+        msg.data = 2;
         publisher_->publish(msg);
     }
     
