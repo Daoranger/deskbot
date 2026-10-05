@@ -9,8 +9,102 @@
         <color rgba="1.0 0.5 0.0 1"/>
       </material>
     </visual>
+    <inertial>
+      <mass value="1.0"/>
+      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+    </inertial>
   </link>
 
+  <!-- Face -->
+  <link name="left_pupil">
+    <visual>
+      <origin rpy="0 1.5708 0"/>
+      <geometry>
+        <cylinder length="0.05" radius="0.035"/>
+      </geometry>
+      <material name="white">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <inertial>
+      <mass value="1.0"/>
+      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+    </inertial>
+  </link>
+
+  <joint name="left_pupil_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="left_pupil"/>
+    <origin xyz="0.355 0.15 0.02"/>
+  </joint>
+
+  <link name="right_pupil">
+    <visual>
+      <origin rpy="0 1.5708 0"/>
+      <geometry>
+        <cylinder length="0.05" radius="0.035"/>
+      </geometry>
+      <material name="white">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+    <inertial>
+      <mass value="1.0"/>
+      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+    </inertial>
+  </link>
+
+  <joint name="right_pupil_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="right_pupil"/>
+    <origin xyz="0.355 -0.15 0.02"/>
+  </joint>
+
+  <link name="left_len">
+    <visual>
+      <origin rpy="0 1.5708 0"/>
+      <geometry>
+        <cylinder length="0.05" radius="0.05"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0.1 0.1 0.1 1"/>
+      </material>
+    </visual>
+    <inertial>
+      <mass value="1.0"/>
+      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+    </inertial>
+  </link>
+
+  <joint name="left_len_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="left_len"/>
+    <origin xyz="0.35 0.15 0.02"/>
+  </joint>
+
+  <link name="right_len">
+    <visual>
+      <origin rpy="0 1.5708 0"/>
+      <geometry>
+        <cylinder length="0.05" radius="0.05"/>
+      </geometry>
+      <material name="black">
+        <color rgba="0.1 0.1 0.1 1"/>
+      </material>
+    </visual>
+    <inertial>
+      <mass value="1.0"/>
+      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+    </inertial>
+  </link>
+
+  <joint name="right_len_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="right_len"/>
+    <origin xyz="0.35 -0.15 0.02"/>
+  </joint>
+
+  <!-- Front Left Wheel -->
   <link name="front_left_wheel">
     <visual>
       <origin rpy="1.5708 0 0"/>
@@ -21,12 +115,16 @@
         <color rgba="0.1 0.1 0.1 1"/>
       </material>
     </visual>
+    <inertial>
+      <mass value="1.0"/>
+      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+    </inertial>
   </link>
 
   <joint name="front_left_wheel_joint" type="continuous">
     <parent link="base_link"/>
     <child link="front_left_wheel"/>
-    <origin xyz="0.15 0.30 -0.15"/>
+    <origin xyz="0.20 0.30 -0.15"/>
     <axis xyz="0 1 0"/>
   </joint>
 
@@ -40,12 +138,16 @@
         <color rgba="0.1 0.1 0.1 1"/>
       </material>
     </visual>
+    <inertial>
+      <mass value="1.0"/>
+      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+    </inertial>
   </link>
 
   <joint name="front_right_wheel_joint" type="continuous">
     <parent link="base_link"/>
     <child link="front_right_wheel"/>
-    <origin xyz="0.15 -0.30 -0.15"/>
+    <origin xyz="0.20 -0.30 -0.15"/>
     <axis xyz="0 1 0"/>
   </joint>
 
@@ -59,12 +161,16 @@
         <color rgba="0.1 0.1 0.1 1"/>
       </material>
     </visual>
+    <inertial>
+      <mass value="1.0"/>
+      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+    </inertial>
   </link>
 
   <joint name="back_left_wheel_joint" type="continuous">
     <parent link="base_link"/>
     <child link="back_left_wheel"/>
-    <origin xyz="-0.15 0.30 -0.15"/>
+    <origin xyz="-0.20 0.30 -0.15"/>
     <axis xyz="0 1 0"/>
   </joint>
 
@@ -78,12 +184,16 @@
         <color rgba="0.1 0.1 0.1 1"/>
       </material>
     </visual>
+    <inertial>
+      <mass value="1.0"/>
+      <inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01"/>
+    </inertial>
   </link>
 
   <joint name="back_right_wheel_joint" type="continuous">
     <parent link="base_link"/>
     <child link="back_right_wheel"/>
-    <origin xyz="-0.15 -0.30 -0.15"/>
+    <origin xyz="-0.20 -0.30 -0.15"/>
     <axis xyz="0 1 0"/>
   </joint>
 </robot>
