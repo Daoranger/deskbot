@@ -9,7 +9,7 @@ public:
     HardwareStatusPublisherNode()
         : Node("hardware_status_publisher")
     {
-        publisher_ = this->create_publisher<my_robot_interfaces::msg::HardwareStatus>(
+        publisher_ = this->create_publisher<my_robot_interfaces::msg::HadwareStatus>(
             "hardware_status", 10
         );
 
@@ -32,7 +32,7 @@ private:
         publisher_->publish(msg);
     }
 
-    rclcpp::Publisher<my_robot_interfaces::msg::HardwareStatus>::SharedPtr publisher_;
+    rclcpp::Publisher<my_robot_interfaces::msg::HadwareStatus>::SharedPtr publisher_;
     rclcpp::TimerBase::SharedPtr timer_;
     
 };
