@@ -15,10 +15,10 @@ public:
     }
 
 private:
-    void callbackAddTwoInts(const example_interfaces::srv::AddTwoInts::Request::SharedPtr request,
-                            const example_interfaces::srv::AddTwoInts::Response::SharedPtr response)
+    void callbackAddTwoInts(const my_robot_interfaces::srv::SetLed::Request::SharedPtr request,
+                            const my_robot_interfaces::srv::SetLed::Response::SharedPtr response)
     {
-        response->sum = request->a + request->b;
+        response->success = request->a + request->b;
         RCLCPP_INFO(this->get_logger(), "%d + %d = %d",
                     (int)request->a, (int)request->b, (int)response->sum);
     }

@@ -31,4 +31,10 @@ def generate_launch_description():
             executable='create',
             arguments=['-topic', 'robot_description', '-name', 'deskbot', '-z', '0.35'],
         ),
+
+        Node(
+            package='ros_gz_bridge',
+            executable='parameter_bridge',
+            arguments=['/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist'],
+        ),
     ])
