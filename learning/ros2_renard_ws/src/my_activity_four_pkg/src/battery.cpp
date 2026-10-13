@@ -12,19 +12,36 @@ public:
         : Node("battery_node") // battery node is a client
     {
         client_ = this->create_client<my_robot_interfaces::srv::SetLed>("set_led");
+        RCLCPP_INFO(this->get_logger(), "Battery node started.");
+        timer_ = this->create_wall_timer(1s, std::bind(&BatteryNode::checkBattery, this));
+    }
+
+    void checkBattery()
+    {
+        seconds_++;
+
+        if (battery_state_ == "full" && seconds_ >= 4)
+        {
+            battery_state_ = "empty";
+            seconds_ = 0;
+            RCLCPP_INFO(this->get_logger(), "Battery empty -> LED on");
+            callSetLed(true);
+        }
+        else if (battery_state_ == "empty" && seconds_ >= 6)
+        {
+            battery_state_ = "full";
+            seconds_ = 0;
+            RCLCPP_INFO(this->get_logger(), "Battery full -> LED off");
+            callSetLed(false);
+        }
     }
 
     void callSetLed(bool status)
     {
-        while (!client_->wait_for_service(1s))
+        if (!client_->wait_for_service(1s))
         {
-            if (!rclcpp::ok())
-            {
-                RCLCPP_ERROR(this->get_logger(), "Interrupted while waiting for the service.");
-                return;
-            }
-            
             RCLCPP_WARN(this->get_logger(), "Waiting for Led panel server.");
+            return;
         }
 
         auto request = std::make_shared<my_robot_interfaces::srv::SetLed::Request>();
@@ -44,14 +61,15 @@ private:
     }
 
     rclcpp::Client<my_robot_interfaces::srv::SetLed>::SharedPtr client_;
-    
+    rclcpp::TimerBase::SharedPtr timer_;
+    std::string battery_state_ = "full";
+    int seconds_ = 0;
 };
 
 int main(int argc, char** argv)
 {
     rclcpp::init(argc, argv);
     auto node = std::make_shared<BatteryNode>();
-    node->callSetLed(true);
     rclcpp::spin(node);
     rclcpp::shutdown();
     return 0;
