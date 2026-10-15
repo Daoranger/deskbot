@@ -20,10 +20,10 @@ public:
 
 private:
 
-    void publishStatus()
+    void publishStatus(bool is_on)
     {
         auto msg = my_robot_interfaces::msg::LedPanelState();
-        msg.state_message = request->is_on ? "Status: on" : "Status: off";
+        msg.state_message = is_on ? "Status: on" : "Status: off";
         publisher_->publish(msg);
     }
 
@@ -34,7 +34,7 @@ private:
                 request->led_number, request->is_on ? "on" : "off");
 
         response->success = true;
-        //publishStatus();
+        publishStatus(request->is_on);
     }
 
     rclcpp::Service<my_robot_interfaces::srv::SetLed>::SharedPtr server_;

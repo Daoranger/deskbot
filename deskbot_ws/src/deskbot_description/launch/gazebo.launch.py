@@ -12,6 +12,7 @@ def generate_launch_description():
     pkg_path = get_package_share_directory('deskbot_description')
     urdf_path = os.path.join(pkg_path, 'urdf', 'deskbot.urdf')
     gz_sim_path = os.path.join(get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')
+    world_path = os.path.join(pkg_path, 'worlds', 'world_desk.sdf')
 
     with open(urdf_path, 'r') as f:
         robot_description = f.read()
@@ -24,12 +25,12 @@ def generate_launch_description():
         ),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(gz_sim_path),
-            launch_arguments={'gz_args': 'empty.sdf'}.items(),
+            launch_arguments={'gz_args': f'{world_path}'}.items(),
         ),
         Node(
             package='ros_gz_sim',
             executable='create',
-            arguments=['-topic', 'robot_description', '-name', 'deskbot', '-z', '0.35'],
+            arguments=['-topic', 'robot_description', '-name', 'deskbot', '-z', '0.81'],
         ),
 
         Node(
