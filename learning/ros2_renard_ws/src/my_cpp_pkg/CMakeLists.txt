@@ -14,11 +14,11 @@ find_package(my_robot_interfaces REQUIRED)
 # add_executable(cpp_node src/cpp_node.cpp)
 # ament_target_dependencies(cpp_node rclcpp)
 
-# add_executable(robot_news_station src/robot_news_station.cpp)
-# ament_target_dependencies(robot_news_station rclcpp example_interfaces)
+add_executable(robot_news_station src/robot_news_station.cpp)
+ament_target_dependencies(robot_news_station rclcpp example_interfaces)
 
-# add_executable(smartphone src/smartphone.cpp)
-# ament_target_dependencies(smartphone rclcpp example_interfaces)
+add_executable(smartphone src/smartphone.cpp)
+ament_target_dependencies(smartphone rclcpp example_interfaces)
 
 add_executable(number_publisher src/number_publisher.cpp)
 ament_target_dependencies(number_publisher rclcpp example_interfaces)
@@ -37,8 +37,8 @@ ament_target_dependencies(number_count rclcpp example_interfaces)
 
 install(TARGETS
   #cpp_node
-  #robot_news_station
-  #smartphone
+  robot_news_station
+  smartphone
   number_publisher
   number_count
   #add_two_ints_server

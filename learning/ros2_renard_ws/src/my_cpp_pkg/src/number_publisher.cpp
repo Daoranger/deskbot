@@ -17,9 +17,26 @@ public:
         publisher_ = this->create_publisher<example_interfaces::msg::Int64>("number", 10);
         timer_ = this->create_wall_timer(std::chrono::duration<double>(timer_period), 
                                          std::bind(&NumberPublisherNode::publishNumber, this));
+        
+        param_cb_handle_ = this->add_post_set_parameters_callback(
+            std::bind(&NumberPublisherNode::postSetParamsCallback, this, std::placeholders::_1)
+        );
     }
 
 private:
+
+    void postSetParamsCallback(const std::vector<rclcpp::Parameter>& params)
+    {
+        for (const auto & param : params) 
+        {
+            if (param.get_name() == "number")
+            {
+                number_ = param.as_int(); 
+                RCLCPP_INFO(this->get_logger(), "Parameter 'number' changed to: %ld", number_);
+            }
+        }
+    }
+
     void publishNumber()
     {
         auto msg = example_interfaces::msg::Int64();
@@ -30,6 +47,7 @@ private:
     int64_t number_;
     rclcpp::Publisher<example_interfaces::msg::Int64>::SharedPtr publisher_;
     rclcpp::TimerBase::SharedPtr timer_;
+    rclcpp::node_interfaces::PostSetParametersCallbackHandle::SharedPtr param_cb_handle_;
 };
 
 

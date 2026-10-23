@@ -22,7 +22,6 @@ private:
         RCLCPP_INFO(this->get_logger(), "%s", msg->data.c_str());
     }
 
-    rcl
     rclcpp::Subscription<example_interfaces::msg::String>::SharedPtr subscriber_;
     
 };
