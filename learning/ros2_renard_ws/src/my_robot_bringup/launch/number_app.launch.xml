@@ -1,4 +1,11 @@
 <launch>
-    <node pkg="my_cpp_pkg" exec="number_publisher" />
-    <node pkg="my_cpp_pkg" exec="number_count" />
+    <node pkg="my_cpp_pkg" exec="number_publisher" name="gagua_number_publisher" namespace="/abc">
+        <remap from="number" to="number_topic" />
+        <!-- <param name="number" value ="67676767"/>
+        <param name="timer_period" value ="2.0"/> -->
+        <param from="$(find-pkg-share my_robot_bringup)/config/number_params.yaml"/>
+    </node>
+    <node pkg="my_cpp_pkg" exec="number_count" name="gagua_number_counter" namespace="/abc">
+        <remap from="number" to="number_topic" />
+    </node>
 </launch>
