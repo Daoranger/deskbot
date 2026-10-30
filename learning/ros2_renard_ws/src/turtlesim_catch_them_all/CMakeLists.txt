@@ -10,6 +10,7 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(turtlesim REQUIRED)
 find_package(my_robot_interfaces REQUIRED)
+find_package(geometry_msgs REQUIRED)
 
 # Turtle spawner node
 add_executable(turtle_spawner_node src/turtle_spawner.cpp)
@@ -25,6 +26,7 @@ ament_target_dependencies(turtle_controller_node
   rclcpp
   turtlesim
   my_robot_interfaces
+  geometry_msgs
 )
 
 install(DIRECTORY
